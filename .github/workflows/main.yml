@@ -1,9 +1,7 @@
 name: Repthon-Baqir
-
-# Controls when the workflow will run
 on:
   push:
-  branch: master
+  branch: [ master ]
     
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
