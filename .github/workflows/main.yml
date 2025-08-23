@@ -18,7 +18,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: lint with isort and black
         run: | 
-          black --fast repthon/*.py
+          echo هلو
       - uses: actions/checkout@v3
       
       - uses: stefanzweifel/git-auto-commit-action@v4
