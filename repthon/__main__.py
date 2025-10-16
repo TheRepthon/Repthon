@@ -5,20 +5,26 @@ from telethon import functions
 from .Config import Config
 from .core.logger import logging
 from .core.session import zq_lo
-from .utils import mybot, saves, autoname
+from .utils import mybot, autoname, autovars, saves
 from .utils import add_bot_to_logger_group, load_plugins, setup_bot, startupmessage, verifyLoggerGroup
-from .sql_helper.globals import addgvar, delgvar, gvarstatus
 
 LOGS = logging.getLogger("𝐑𝐞𝐩𝐭𝐡𝐨𝐧")
 cmdhr = Config.COMMAND_HAND_LER
-# ---------------
-if gvarstatus("ALIVE_NAME") is None: #Code by T.me/E_7_V
+
+if gvarstatus("ALIVE_NAME") is None:
     try:
         LOGS.info("⌭ بـدء إضافة الاسـم التلقـائـي ⌭")
         zq_lo.loop.run_until_complete(autoname())
         LOGS.info("✓ تـم إضافة فار الاسـم .. بـنجـاح ✓")
     except Exception as e:
-        LOGS.error(f"- The AutoName {e}")
+        LOGS.error(f"- {e}")
+
+try:
+    LOGS.info("⌭ جـارِ تحميـل الملحقـات ⌭")
+    zq_lo.loop.run_until_complete(autovars())
+    LOGS.info("✓ تـم تحميـل الملحقـات .. بنجـاح ✓")
+except Exception as e:
+    LOGS.error(f"- {e}")
 
 try:
     LOGS.info("⌭ بـدء تنزيـل ريبـــثون ⌭")
@@ -67,10 +73,8 @@ zq_lo.loop.run_until_complete(startup_process())
 if len(sys.argv) not in (1, 3, 4):
     zq_lo.disconnect()
 elif not RPcheck.sucess:
-    try:
-        zq_lo.run_until_disconnected()
-    except ConnectionError:
-        pass
+    if HEROKU_APP is not None:
+        HEROKU_APP.restart()
 else:
     try:
         zq_lo.run_until_disconnected()
